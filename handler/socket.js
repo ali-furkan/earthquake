@@ -6,10 +6,11 @@ const {Expo} = require("expo-server-sdk")
 var users = []
 let expo = new Expo()
 var pushNotf = async msg=>await expo.sendPushNotificationsAsync(expo.chunkPushNotifications(msg)[0])
-
+var x =0;
 fs.watchFile("./data.json",()=>{
     delete require.cache[require.resolve("../data.json")];
     eqData = require("../data.json");
+    if(x==0) return x++
     console.log("Deprem oldu")
     io.emit("newEq",eqData[0]);
     users.forEach(async user => {
