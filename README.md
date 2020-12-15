@@ -1,1 +1,2 @@
-"# afii-eqnt" 
+# Earthquake API
+
