@@ -4,6 +4,7 @@ import {
     HttpService,
     Inject,
     Injectable,
+    InternalServerErrorException,
 } from "@nestjs/common"
 import { Cache } from "cache-manager"
 import { JSDOM } from "jsdom"
@@ -62,18 +63,20 @@ export class EarthquakeService {
         return await this.cacheService.get("earthquake.last")
     }
 
-    async getList(size=20, start=0): Promise<Earthquake.IEarthquake[]> {
+    async getList(size: number, start: number): Promise<Earthquake.IEarthquake[]> {
+        if(size>100) throw new BadRequestException("More than 100 can not be show list")
         const list:Earthquake.IEarthquake[] = await this.cacheService.get("earthquake.list")
+        if(!list) throw new InternalServerErrorException("Server is not ready")
+        if(start+size>list?.length) throw new BadRequestException("Invalid queries")
         return list.slice(start,start+size)
     }
 
     async findOne(id: string): Promise<Earthquake.IEarthquake> {
-        const earthquake: Earthquake.IEarthquake = await this.cacheService.get(
-            `eq.${id}`,
-        )
+        const list:Earthquake.IEarthquake[] = await this.cacheService.get("earthquake.list")
+        if(!list) throw new InternalServerErrorException("Server is not ready")
+        const earthquake = list.find(e=>e.id)
         if (!earthquake)
             throw new BadRequestException(`"${id}" ID not found on cache`)
-
         return earthquake
     }
 }
