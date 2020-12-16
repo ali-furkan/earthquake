@@ -1,0 +1,8 @@
+{
+    "name": "Earthquake API",
+    "description": "Kandilli wrapper API",
+    "keywords": ["api","wrapper", "earthquake"],
+    "website": "https://earthquake.alifurkan.co",
+    "repository": "https://github.com/ali-furkqn/earthquake",
+    "logo": "https://alifurkan.co/assets/logo-white.png"
+}
