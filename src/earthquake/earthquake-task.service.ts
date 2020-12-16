@@ -18,7 +18,7 @@ export class EarthquakeTaskService {
     async handleEarthquake(): Promise<void> {
         this.logger.debug("Searching new earthquake")
         const lastEarthquake: Earthquake.IEarthquake = await this.earthquakeService.getLastEarthquake()
-        this.logger.debug("last: " + lastEarthquake)
+        this.logger.debug("Last Earthquake " + lastEarthquake?.occuredAt)
         if (!lastEarthquake) {
             // All of earthquake fetching
             this.logger.debug("Adding from the beginning")
@@ -28,17 +28,8 @@ export class EarthquakeTaskService {
                     this.configService.earthquake.baseUrl +
                         `/events${p === 0 ? "" : p}.html`,
                 )
-                eqs.forEach(async e => {
-                    await this.cacheService.set(
-                        "earthquake.list",
-                        [
-                            ...(await this.cacheService.get("earthquake.list")),
-                            e,
-                        ],
-                        {
-                            ttl: 5 * 60,
-                        },
-                    )
+                await this.cacheService.set("earthquake.list",eqs.reverse(),{
+                    ttl: 5*60
                 })
                 if (size === 0 && p === 0) {
                     await this.cacheService.set("earthquake.last", eqs[0], {
@@ -48,6 +39,7 @@ export class EarthquakeTaskService {
                 size += eqs.length
                 p++
             } while (size < this.configService.earthquake.cacheSize)
+            this.logger.debug(`Searching done. ${size} earthquake data added on cache`)
             return
         }
         const eqs = await this.earthquakeService.geEqWithUrl(
@@ -64,6 +56,8 @@ export class EarthquakeTaskService {
             c = newEqDate.getTime() > lastEqDate.getTime()
             len++
         } while (c)
+
+        this.logger.debug(`Found missing ${len} earthquakes`)
 
         // One more statement may be add to here for validation
 

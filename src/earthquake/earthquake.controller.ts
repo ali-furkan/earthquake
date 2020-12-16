@@ -16,9 +16,9 @@ export class EarthquakeController {
 
     @Get(["/", "@all"])
     async getAllEarthquakes(
-        @Query("size",new ParseIntPipe()) size: number,
-        @Query("begin",new ParseIntPipe()) begin: number
+        @Query("size") size: number,
+        @Query("begin") begin: number
     ): Promise<Earthquake.IEarthquake[]> {
-        return await this.earthquakeService.getList(size,begin)
+        return await this.earthquakeService.getList(size||20,begin||0)
     }
 }
