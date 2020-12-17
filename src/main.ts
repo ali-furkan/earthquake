@@ -14,7 +14,9 @@ async function bootstrap() {
         max: 100
     }))
 
-    app.setGlobalPrefix(process.env.ROOT_PATH || "/")
+    if(process.env.ROOT_PATH) {
+        app.setGlobalPrefix(process.env.ROOT_PATH)
+    }
     app.useGlobalPipes(
         new ValidationPipe({
             transform: true,
