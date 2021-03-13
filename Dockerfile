@@ -7,6 +7,8 @@ COPY tsconfig.build.json tsconfig.json ./
 
 RUN npm i
 
+COPY src src
+
 RUN npm run build
 
 ENV PORT=8080
