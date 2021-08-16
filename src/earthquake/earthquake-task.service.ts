@@ -1,11 +1,11 @@
-import { CACHE_MANAGER, Inject, Injectable, Logger } from "@nestjs/common"
+import { CACHE_MANAGER, Inject, Injectable, Logger, OnModuleInit } from "@nestjs/common"
 import { Cron, CronExpression } from "@nestjs/schedule"
 import { Cache } from "cache-manager"
 import { AppConfigService } from "src/config/config.service"
 import { EarthquakeService } from "./earthquake.service"
 
 @Injectable()
-export class EarthquakeTaskService {
+export class EarthquakeTaskService implements OnModuleInit {
     constructor(
         @Inject(CACHE_MANAGER)
         private readonly cacheService: Cache,
@@ -13,6 +13,10 @@ export class EarthquakeTaskService {
         private readonly configService: AppConfigService,
     ) {}
     private readonly logger = new Logger(EarthquakeTaskService.name)
+    
+    async onModuleInit(): Promise<void> {
+        await this.handleEarthquake()
+    }
 
     @Cron(CronExpression.EVERY_5_MINUTES)
     async handleEarthquake(): Promise<void> {
