@@ -31,4 +31,4 @@ Also You can deploy with Heroku.
 
 ## LICENSE
 
-This repo is [MIT licensed](./LICENSE)
+This repo licensed under the [MIT license](./LICENSE)
