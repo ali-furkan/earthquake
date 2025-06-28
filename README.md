@@ -1,10 +1,10 @@
 # Earthquake API
 
-First of all, this repo is a [Kandilli](http://sc3.koeri.boun.edu.tr/eqevents) wrapper api. This repo has no commercial meaning. It just increases accessibility for web services.
+This repository is a wrapper API for [Kandilli](http://sc3.koeri.boun.edu.tr/eqevents). It has no commercial purpose and is intended solely to improve accessibility to the web services.
 
-Project developed with [Nest.js](https://nestjs.com). Sample publish project [here](https://earthquake.alifurkan.co)
+Project is developed with [Nest.js](https://nestjs.com). publish sample project [here](https://earthquake.alifurkan.dev)
 
-Also You can deploy with Heroku.
+Also you can deploy with Heroku.
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/ali-furkqn/earthquake)
 
